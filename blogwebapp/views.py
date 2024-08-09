@@ -1,13 +1,12 @@
-from django.shortcuts import render
-from .models import Post
-#from models import Post
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Post, CMIssuesHeader
 
 
-#from django.http import HttpResponse 
+#from django.http import HttpResponse
 
 posts = [
             {
-                'author': 'Ian Nyingi' , 
+                'author': 'Ian Nyingi' ,
                     'title': 'Surviving is Winning Franklin',
                     'content': 'First Post ',
                     'date_posted': 'July 31 2024'
@@ -21,7 +20,7 @@ posts = [
 
         ]
 
-  
+
 # Create your views here.
 def home(request):
     context = {
@@ -34,4 +33,12 @@ def home(request):
 def about(request):
      return render(request, 'blogwebapp/about.html', {'title': 'About'})
 
+def issues(request):
+    issues = CMIssuesHeader.objects.all()
+    return render(request, 'blogwebapp/issues.html', {'issues': issues})
 
+def update_issue(request, issue_id):
+    issue = CMIssuesHeader.objects.get(id=issue_id)
+    issue.Posted = request.POST.get('Posted')
+    issue.save()
+    return redirect('issues')
