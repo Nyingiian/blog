@@ -1,0 +1,76 @@
+{% extends "blogwebapp/base.html" %}
+{% block content %}
+    {% comment %} <div class="card"> {% endcomment %}
+        <div class="card-body" style="margin-top: 60px;">
+            <h2 class="card-title">Issue Stock - Projects</h2>
+            <!-- Table with class 'datatable' -->
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>Issue No</th>
+                        <th>Description</th>
+                        {% comment %} <th>OPP No/SVC/Circuit ID</th> {% endcomment %}
+                        {% comment %} <th>Location</th> {% endcomment %}
+                        <th>Contractor</th>
+                        {% comment %} <th>Site</th> {% endcomment %}
+                        <th>Ticket/Order No</th>
+                        <th>Type</th>
+                        <!-- Commented fields, remove if not needed
+                        <th>Line Manager</th>
+                        <th>Procurement Manager</th>
+                        <th>CTO</th>
+                        -->
+                        <th>Requested By</th>
+                        <th>Department</th>
+                        <th>Destination</th>
+                        {% comment %} <th>Project</th>
+                        <th>Year</th>
+                        <th>Task</th>
+                        <th>BTS</th> {% endcomment %}
+                        <th>Delivery Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in issues %}
+                    <tr>
+                        <td>{{ issue.MIssueNo }}</td>
+                        <td>{{ issue.MDescription }}</td>
+                        {% comment %} <td>{{ issue.Reference }}</td> {% endcomment %}
+                        {% comment %} <td>{{ issue.SubLocation }}</td> {% endcomment %}
+                        <td>{{ issue.Contractor }}</td>
+                        {% comment %} <td>{{ issue.MSite }}</td> {% endcomment %}
+                        <td>{{ issue.TicketNo }}</td>
+                        <td>{{ issue.IssueType }}</td>
+                        <!-- Commented fields, remove if not needed
+                        <td>{{ issue.SDUManager }}</td>
+                        <td>{{ issue.ProcurementManager }}</td>
+                        <td>{{ issue.CTO }}</td>
+                        -->
+                        <td>{{ issue.RequestedBy }}</td>
+                        <td>{{ issue.UserDepartment }}</td>
+                        <td>{{ issue.Destination }}</td>
+                        {% comment %} <td>{{ issue.MProject }}</td>
+                        <td>{{ issue.MYear }}</td>
+                        <td>{{ issue.MTask }}</td>
+                        <td>{{ issue.BTS }}</td> {% endcomment %}
+                        <td>{{ issue.DeliveryDate }}</td>
+                        <td>{{ issue.Posted }}</td>
+                        <td>
+                            <!-- Action button for each issue -->
+                            {% comment %} action="{% url 'update_issue' issue.id %}" {% endcomment %}
+                            <form method="POST"  style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="Posted" value="2">
+                                <button type="submit" class="btn btn-success btn-sm">Approve/Submit</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- End Table with class 'datatable' -->
+        </div>
+    {% comment %} </div> {% endcomment %}
+{% endblock content %}
