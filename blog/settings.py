@@ -32,6 +32,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'blogwebapp.apps.BlogwebappConfig',
+    'users.apps.UsersConfig',
+    'crispy_forms',
+    'crispy_bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,10 +86,10 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': 'LTKDAT',
+        'NAME': 'LTKCOM',
         'USER': 'sa',
-        'PASSWORD': 'mahavira',
-        'HOST': 'LAPTOP-L78BSSGL\\SA',
+        'PASSWORD': 'Mahavira',
+        'HOST': 'NYINGI',
         'PORT': '',
         'OPTIONS': {
             'driver' : 'ODBC Driver 17 for SQL Server',
@@ -132,7 +135,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_REDIRECT_URL = 'blog-home' 
+
+LOGIN_URL = 'login'
