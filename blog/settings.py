@@ -10,22 +10,43 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+def env_or_setting(env_varibale, required=True, default=None, list=False, bool=False, integer=False):
+    try:
+        if bool:
+            return os.getenv(env_varibale) == "True"
+        elif list:
+            return os.getenv(env_varibale).split(",")
+        elif integer:
+            return int(os.getenv(env_varibale))
+        else:
+            return os.getenv(env_varibale)  
+    except ImproperlyConfigured:
+        if required and env_varibale is None:
+            raise ImproperlyConfigured(f"Set the {env_varibale} environment variable")
+        else:
+            return default
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ha^tc1_+%@1f)y%r23n(7s-i0n1c4t8f8ed!en*ouqmt7$9rlt'
+SECRET_KEY = env_or_setting("DJANGO_SECRET_KEY", required=True)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env_or_setting("DJANGO_DEBUG", default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env_or_setting("ALLOWED_HOSTS", required=True, list=True)
 
 
 # Application definition
@@ -46,8 +67,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
